@@ -1,0 +1,1 @@
+"C:\Users\PAINMASTER\Anaconda3\envs\qubit-measurements\python.exe" "dip-slave.py"
