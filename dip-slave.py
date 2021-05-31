@@ -2,16 +2,17 @@ import socket
 from datetime import datetime
 import json
 from slave import Slave
-
+from requests import get
+import netifaces as ni
 class DIPSlave(Slave):
 
     def generate_info_message(self):
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("8.8.8.8", 80))
-            ip = s.getsockname()[0]
-            s.close()
-            return datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"\nMy current IP is " + ip
+            ip = get('https://api.ipify.org').text
+            ni.ifaddresses('enp67s0')
+            ip_internal = ni.ifaddresses('enp67s0')[ni.AF_INET][0]['addr']
+            return "My current IP is " + ip + " or "+str(ip_internal) +" (" \
+                                                                       "local)"
         except Exception as e:
             return str(e)
 
